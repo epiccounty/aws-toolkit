@@ -19,10 +19,10 @@ brew install --cask session-manager-plugin   # for SSM sessions
 aws --version && session-manager-plugin --version   # verify
 ```
 
-## 2. ~/.aws/config setup
+## 2. Profile setup — pick a scope
 
 Get 3 values from the administrator: start URL, account ID (12 digits), role name.
-Append:
+The profile block is identical for both scopes:
 
 ```ini
 [profile epiccounty]
@@ -38,7 +38,33 @@ sso_region = ap-northeast-2
 sso_registration_scopes = sso:account:access
 ```
 
-Coexists with any existing `[sso-session]` blocks — no conflict.
+### Option A — user home (default, all projects)
+
+Append the block to `~/.aws/config`. Coexists with any existing `[sso-session]`
+blocks — no conflict.
+
+### Option B — project home (per-project isolation)
+
+Put the config inside the project instead:
+
+```bash
+mkdir -p .aws
+# write the block to .aws/config
+echo '.aws/' >> .gitignore   # contains start URL + account ID — never commit
+```
+
+Then point the AWS CLI at it. With direnv (recommended):
+
+```bash
+# .envrc
+export AWS_CONFIG_FILE=$PWD/.aws/config
+export AWS_PROFILE=epiccounty
+```
+
+Without direnv, export `AWS_CONFIG_FILE` in each shell before running aws commands.
+
+Pick B when the project must not share credentials state with other work (e.g.
+multiple accounts, CI-local runs). Cache still lands in `~/.aws/sso/cache` either way.
 
 ## 3. Login and verify
 
