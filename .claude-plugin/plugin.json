@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "aws-toolkit",
+  "version": "0.1.0",
+  "description": "Integrated AWS toolkit: SSO access, SSM instance sessions and port-forward tunnels, and general AWS CLI operations — skills plus a dedicated aws-ops subagent",
+  "author": { "name": "epiccounty", "url": "https://github.com/epiccounty" },
+  "homepage": "https://github.com/epiccounty/aws-toolkit",
+  "repository": "https://github.com/epiccounty/aws-toolkit",
+  "license": "MIT",
+  "keywords": [],
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "agents": ["./agents/aws-ops.md"]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "epiccounty",
+  "owner": {
+    "name": "epiccounty",
+    "url": "https://github.com/epiccounty"
+  },
+  "metadata": {
+    "description": "Handcrafted plugins for serious AI-assisted work."
+  },
+  "plugins": [
+    {
+      "name": "aws-toolkit",
+      "source": "./",
+      "description": "Integrated AWS toolkit: SSO access, SSM instance sessions and port-forward tunnels, and general AWS CLI operations — skills plus a dedicated aws-ops subagent"
+    }
+  ]
+}

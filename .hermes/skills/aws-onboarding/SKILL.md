@@ -1,0 +1,1 @@
+../../../skills/aws-onboarding/SKILL.md

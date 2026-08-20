@@ -1,0 +1,18 @@
+# Hermes plugin manifest (YAML).
+# Spec: https://hermes-agent.nousresearch.com/docs/developer-guide/plugins
+# Loaded by `hermes plugins` from ~/.hermes/plugins/<name>/plugin.yaml
+name: aws-toolkit
+version: "0.1.0"
+description: "Integrated AWS toolkit: SSO access, SSM instance sessions and port-forward tunnels, and general AWS CLI operations — skills plus a dedicated aws-ops subagent"
+author:
+  name: epiccounty
+  url: https://github.com/epiccounty
+# Hermes discovers bundled skills via ctx.register_skill() in __init__.py;
+# this list documents them so forge doctor can verify the bundle.
+provides_skills:
+  - aws-access
+  - aws-ssm
+  - aws-cli
+  - aws-onboarding
+  - aws-security
+  - aws-services
