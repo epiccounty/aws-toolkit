@@ -1,1 +1,0 @@
-../../../skills/aws-ssm/SKILL.md

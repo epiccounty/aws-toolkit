@@ -1,1 +1,0 @@
-../../agents/aws-ops.md

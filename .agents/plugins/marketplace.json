@@ -1,0 +1,22 @@
+{
+  "name": "aws-toolkit",
+  "interface": {
+    "displayName": "aws-toolkit"
+  },
+  "plugins": [
+    {
+      "name": "aws-toolkit",
+      "description": "Integrated AWS toolkit: SSO access, SSM instance sessions and port-forward tunnels, and general AWS CLI operations — skills plus a dedicated aws-ops subagent",
+      "source": {
+        "source": "local",
+        "path": "./plugins/aws-toolkit"
+      },
+      "pluginManifest": "./.codex-plugin/plugin.json",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

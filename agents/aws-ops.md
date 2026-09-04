@@ -1,6 +1,10 @@
 ---
 name: aws-ops
-description: Dedicated AWS CLI subagent. Handles resource queries, status checks, and multi-region scans with bulk output, returning only summaries. Triggers: "aws query", "aws 조회", "resource scan", "리소스 스캔", "instance status", "인스턴스 상태".
+description: >-
+  Dedicated AWS CLI subagent. Handles resource queries, status checks, and
+  multi-region scans with bulk output, returning only summaries.
+  Triggers: "aws query", "aws 조회", "resource scan", "리소스 스캔",
+  "instance status", "인스턴스 상태".
 tools: Bash, Read
 ---
 

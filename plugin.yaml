@@ -7,6 +7,9 @@ description: "Integrated AWS toolkit: SSO access, SSM instance sessions and port
 author:
   name: epiccounty
   url: https://github.com/epiccounty
+homepage: https://github.com/epiccounty/aws-toolkit
+repository: https://github.com/epiccounty/aws-toolkit
+license: Apache-2.0
 # Hermes discovers bundled skills via ctx.register_skill() in __init__.py;
 # this list documents them so forge doctor can verify the bundle.
 provides_skills:

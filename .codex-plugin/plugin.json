@@ -8,8 +8,15 @@
   },
   "homepage": "https://github.com/epiccounty/aws-toolkit",
   "repository": "https://github.com/epiccounty/aws-toolkit",
-  "license": "MIT",
-  "keywords": [],
+  "license": "Apache-2.0",
+  "keywords": [
+    "aws",
+    "sso",
+    "ssm",
+    "cli",
+    "devops",
+    "agent-skills"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "aws-toolkit",
@@ -17,7 +24,12 @@
     "longDescription": "Integrated AWS toolkit: SSO access, SSM instance sessions and port-forward tunnels, and general AWS CLI operations — skills plus a dedicated aws-ops subagent",
     "developerName": "epiccounty",
     "category": "Development & Workflow",
-    "capabilities": ["Bash", "Read", "Write", "Edit"],
+    "capabilities": [
+      "Bash",
+      "Read",
+      "Write",
+      "Edit"
+    ],
     "websiteURL": "https://github.com/epiccounty/aws-toolkit"
   }
 }

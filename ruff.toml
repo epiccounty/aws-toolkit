@@ -1,0 +1,3 @@
+[lint]
+# hermes loads __init__.py via file path; the hyphenated repo dir is intentional.
+ignore = ["N999"]

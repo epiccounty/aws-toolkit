@@ -25,7 +25,7 @@ aws ec2 describe-instances --profile epiccounty \
 aws s3 ls --profile epiccounty
 aws cloudformation list-stacks --stack-status-filter CREATE_COMPLETE UPDATE_COMPLETE --profile epiccounty
 aws logs tail <LOG_GROUP> --since 1h --profile epiccounty
-aws ce get-cost-and-usage --time-period Start=2026-08-01,End=2026-08-20 --granularity DAILY \
+aws ce get-cost-and-usage --time-period Start=<START>,End=<END> --granularity DAILY \
   --metrics "UnblendedCost" --profile epiccounty
 ```
 

@@ -1,0 +1,95 @@
+name: ci
+
+on:
+  push:
+    branches: [main, "feat/**", "fix/**", "chore/**", "docs/**"]
+  pull_request:
+
+# 최소 권한 + Action SHA pin (태그는 mutable — repointing 공격면).
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plugin:
+    runs-on: ubuntu-latest
+    steps:
+      # symlinks 를 보존해야 host-discovery 트리 검증이 의미가 있다 (git checkout 기본 동작).
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install validators
+        run: pip install pyyaml ruff
+
+      - name: Manifest JSON parse
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          for f in ["plugin.json", ".claude-plugin/plugin.json",
+                    ".claude-plugin/marketplace.json", ".codex-plugin/plugin.json",
+                    ".agents/plugins/marketplace.json"]:
+              json.load(open(f))
+              print("ok", f)
+          PY
+
+      - name: Manifest YAML parse
+        run: python3 -c "import yaml; yaml.safe_load(open('plugin.yaml'))"
+
+      - name: SKILL.md / agent frontmatter (strict YAML)
+        run: |
+          python3 - <<'PY'
+          import glob, sys, yaml
+          files = glob.glob("skills/*/SKILL.md") + glob.glob("agents/*.md")
+          assert files, "no frontmatter files found"
+          for f in files:
+              text = open(f, encoding="utf-8").read()
+              assert text.startswith("---"), f"{f}: missing frontmatter"
+              meta = yaml.safe_load(text.split("---", 2)[1])
+              assert meta.get("name") and meta.get("description"), f"{f}: name/description required"
+              print("ok", f)
+          PY
+
+      - name: Symlinks resolve
+        run: |
+          fail=0
+          for link in .claude/skills .codex/skills .hermes/skills .claude/agents \
+                      plugins/aws-toolkit/skills plugins/aws-toolkit/agents \
+                      plugins/aws-toolkit/.codex-plugin; do
+            [ -e "$link" ] || { echo "BROKEN: $link"; fail=1; }
+          done
+          exit $fail
+
+      - name: Sources and mirrors agree
+        run: |
+          fail=0
+          for f in skills/*/SKILL.md; do
+            [ -e "$f" ] || continue
+            n=$(basename "$(dirname "$f")")
+            cmp -s "$f" ".claude/skills/$n/SKILL.md" || { echo "DRIFT: $n"; fail=1; }
+          done
+          cmp -s agents/aws-ops.md .claude/agents/aws-ops.md || { echo "DRIFT: agents/aws-ops.md"; fail=1; }
+          exit $fail
+
+      - name: ruff check
+        run: ruff check .
+
+      - name: forge doctor (read-only)
+        run: |
+          forge="$(find "$HOME/.claude" -path '*plugin-forge*/scripts/forge.py' | head -1)"
+          if [ -n "$forge" ]; then
+            python3 "$forge" doctor . --owner epiccounty
+          else
+            echo "forge.py not available on this runner — skipping"
+          fi
+        continue-on-error: true
+
+      - name: agy plugin validate
+        run: |
+          if command -v agy >/dev/null 2>&1; then agy plugin validate .; else echo "agy not installed — skipping"; fi
+        continue-on-error: true
